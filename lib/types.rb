@@ -8,7 +8,11 @@ module DataMapper
       end
 
       def self.dump(value, property)
-        value.nil? ? nil : value.name
+        if value
+          (value.is_a? Class) ? value : Extlib::Inflection.constantize(value)
+        else
+          nil
+        end
       end
     end # class URI
   end # module Types
