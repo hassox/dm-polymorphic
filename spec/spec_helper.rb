@@ -1,19 +1,19 @@
-require 'rubygems'
-require 'pathname'
+require "rubygems"
+require "pathname"
 
-gem 'dm-core', '=0.9.1'
-require 'dm-core'
+gem "dm-core", ">=0.9.1"
+require "dm-core"
 
 spec_dir_path = Pathname(__FILE__).dirname.expand_path
-require spec_dir_path.parent + 'lib/dm-polymorphic'
+require spec_dir_path.parent + "lib/dm-polymorphic"
 
 def load_driver(name, default_uri)
-  return false if ENV['ADAPTER'] != name.to_s
+  return false if ENV["ADAPTER"] != name.to_s
 
   lib = "do_#{name}"
 
   begin
-    gem lib, '=0.9.1'
+    gem lib, ">=0.9.1"
     require lib
     DataMapper.setup(name, ENV["#{name.to_s.upcase}_SPEC_URI"] || default_uri)
     DataMapper::Repository.adapters[:default] =  DataMapper::Repository.adapters[name]
@@ -24,8 +24,8 @@ def load_driver(name, default_uri)
   end
 end
 
-ENV['ADAPTER'] ||= 'sqlite3'
+ENV["ADAPTER"] ||= "sqlite3"
 
-HAS_SQLITE3  = load_driver(:sqlite3,  'sqlite3::memory:')
-HAS_MYSQL    = load_driver(:mysql,    'mysql://localhost/dm_core_test')
-HAS_POSTGRES = load_driver(:postgres, 'postgres://postgres@localhost/dm_core_test')
+HAS_SQLITE3  = load_driver(:sqlite3,  "sqlite3::memory:")
+HAS_MYSQL    = load_driver(:mysql,    "mysql://localhost/dm_core_test")
+HAS_POSTGRES = load_driver(:postgres, "postgres://postgres@localhost/dm_core_test")
