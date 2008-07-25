@@ -1,8 +1,8 @@
-require 'rubygems'
-require 'pathname'
+require "rubygems"
+require "pathname"
 
-gem 'dm-core', '>=0.9.1'
-require 'dm-core'
+gem "dm-core", ">=0.9.1"
+require "dm-core"
 
 
 module DataMapper
@@ -16,7 +16,11 @@ module DataMapper
           
           def #{name}
             return nil if self.#{name}_class.nil?
-            #{name}_class.get(#{name}_id)
+            if (self.#{name}_class.class == String)
+              Kernel.const_get(self.#{name}_class).get(self.#{name}_id)
+            else
+              self.#{name}_class.get(self.#{name}_id)
+            end
           end        
         EOS
                 
@@ -33,8 +37,5 @@ module DataMapper
   
 end
 
-
-require Pathname(__FILE__).dirname.expand_path / 'associations.rb' 
-require Pathname(__FILE__).dirname.expand_path / 'types.rb' 
-
-
+require Pathname(__FILE__).dirname.expand_path / "associations.rb" 
+require Pathname(__FILE__).dirname.expand_path / "types.rb" 

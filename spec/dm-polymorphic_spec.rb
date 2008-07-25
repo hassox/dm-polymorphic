@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/spec_helper"
 DataMapper::Logger.new(STDOUT, :debug)
 
 if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
-  describe 'DataMapper::Polymorphic' do
+  describe "DataMapper::Polymorphic" do
     
     class Comment
       include DataMapper::Resource
