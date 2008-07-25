@@ -20,7 +20,7 @@ spec = Gem::Specification.new do |s|
   s.homepage         = 'http://github.com/hassox/dm-polymorphic'
   s.require_path     = 'lib'
   s.files            = FileList[ '{lib,spec}/**/*.rb', 'spec/spec.opts', 'Rakefile', *s.extra_rdoc_files ]
-  s.add_dependency('dm-core', "=#{s.version}")
+  s.add_dependency('dm-core', ">=#{s.version}")
 end
 
 task :default => [ :spec ]
