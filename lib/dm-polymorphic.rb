@@ -11,7 +11,7 @@ module DataMapper
       
       def is_polymorphic(name) 
         self.class_eval <<-EOS, __FILE__, __LINE__
-          property :"#{name}_class",  Class
+          property :"#{name}_class",  Klass
           property :"#{name}_id",     String
           
           def #{name}
