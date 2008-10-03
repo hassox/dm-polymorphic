@@ -9,10 +9,10 @@ module DataMapper
   module Is
     module Polymorphic
       
-      def is_polymorphic(name) 
+      def is_polymorphic(name, id_type=String)
         self.class_eval <<-EOS, __FILE__, __LINE__
-          property :"#{name}_class",  Klass
-          property :"#{name}_id",     String
+          property :"#{name}_class", Class
+          property :"#{name}_id",    #{id_type}
           
           def #{name}
             return nil if self.#{name}_class.nil?
