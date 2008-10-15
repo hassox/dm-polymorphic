@@ -22,8 +22,12 @@ module DataMapper
               self.#{name}_class.get(self.#{name}_id)
             end
           end        
+
+          def #{name}=(entity)
+            self.#{name}_class = entity.class.name
+            self.#{name}_id = entity.id
+          end        
         EOS
-                
       end
       
     end # Polymophic
