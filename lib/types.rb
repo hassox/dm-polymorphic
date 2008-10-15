@@ -1,6 +1,6 @@
 module DataMapper
   module Types
-    class Class < DataMapper::Type
+    class Klass < DataMapper::Type
       primitive String
 
       def self.load(value, property)

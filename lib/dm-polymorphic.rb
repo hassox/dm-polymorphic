@@ -1,7 +1,7 @@
 require "rubygems"
 require "pathname"
 
-gem "dm-core", ">=0.9.1"
+gem "dm-core", ">=0.9.6"
 require "dm-core"
 
 
@@ -9,10 +9,10 @@ module DataMapper
   module Is
     module Polymorphic
       
-      def is_polymorphic(name) 
+      def is_polymorphic(name, id_type=String)
         self.class_eval <<-EOS, __FILE__, __LINE__
-          property :"#{name}_class",  Class
-          property :"#{name}_id",     Integer
+          property :"#{name}_class", Klass
+          property :"#{name}_id",    #{id_type}
           
           def #{name}
             return nil if self.#{name}_class.nil?
