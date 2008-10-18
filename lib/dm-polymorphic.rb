@@ -15,11 +15,12 @@ module DataMapper
           property :"#{name}_id",    #{id_type}
           
           def #{name}
-            return nil if self.#{name}_class.nil?
-            if (self.#{name}_class.class == String)
-              Kernel.const_get(self.#{name}_class).get(self.#{name}_id)
-            else
+            return nil if self.#{name}_class.nil? || self.#{name}_class == NilClass
+            return nil if self.#{name}_id.nil?
+            if (self.#{name}_class.class == Class)
               self.#{name}_class.get(self.#{name}_id)
+            else
+              Kernel.const_get(self.#{name}_class.to_s).get(self.#{name}_id)
             end
           end        
 
