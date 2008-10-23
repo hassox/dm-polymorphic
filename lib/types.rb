@@ -5,7 +5,7 @@ module DataMapper
 
       def self.load(value, property)
         if value
-          value.is_a?(Class) ? value : Extlib::Inflection.constantize(value)
+          value # value.is_a?(Class) ? value : Extlib::Inflection.constantize(value)
         else
           nil
         end
