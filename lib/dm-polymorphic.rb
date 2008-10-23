@@ -20,7 +20,12 @@ module DataMapper
             if (self.#{name}_class.class == Class)
               self.#{name}_class.get(self.#{name}_id)
             else
-              Kernel.const_get(self.#{name}_class.to_s).get(self.#{name}_id)
+              klass = Kernel.const_get(self.#{name}_class.to_s)
+              if klass.ancestors.include? DataMapper::Resource
+                klass.get(self.#{name}_id)
+              else
+                nil
+              end
             end
           end        
 
