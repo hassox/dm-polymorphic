@@ -25,7 +25,7 @@ module DataMapper
           end        
 
           def #{name}=(entity)
-            self.#{name}_class = entity.class.name
+            self.#{name}_class = entity.class
             self.#{name}_id = entity.id
           end        
         EOS

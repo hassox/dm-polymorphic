@@ -1,15 +1,19 @@
 module DataMapper
   module Types
     class Klass < DataMapper::Type
-      primitive String
+      primitive Class
 
       def self.load(value, property)
-        value.nil? ? nil : Extlib::Inflection.constantize(value)
+        if value
+          value.is_a?(Class) ? value : Extlib::Inflection.constantize(value)
+        else
+          nil
+        end
       end
 
       def self.dump(value, property)
         if value
-          (value.is_a? Class) ? value : Extlib::Inflection.constantize(value)
+          (value.is_a? Class) ? value.name : Extlib::Inflection.constantize(value.to_s)
         else
           nil
         end
