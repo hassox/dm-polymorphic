@@ -5,7 +5,7 @@ module DataMapper
       alias_method :has_without_polymorphism, :has
       
       def has(cardinality, name, opts = {})
-        if interface = opts.delete(:via)
+        if interface = opts.delete(:polymorphically)
         
           # get the child model
           child_model_name =  opts.fetch(:class_name, Extlib::Inflection.classify(name))

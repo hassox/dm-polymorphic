@@ -18,7 +18,7 @@ class Post
   property :id, Integer, :serial => true
   property :name,  String  
 
-  has n, :comments, :via => :commentable   
+  has n, :comments, :polymorphically => :commentable   
 end
 
 class Article
@@ -27,7 +27,7 @@ class Article
   property :id, Integer, :serial => true
   property :name,  String  
 
-  has n, :comments, :via => :commentable
+  has n, :comments, :polymorphically => :commentable
 end
 
 Comment.auto_migrate!

@@ -20,7 +20,7 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
       property :id, Integer, :serial => true
       property :name,  String  
 
-      has n, :comments, :via => :commentable   
+      has n, :comments, :polymorphically => :commentable   
     end
 
     class Article
@@ -29,7 +29,7 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
       property :id, Integer, :serial => true
       property :name,  String  
 
-      has n, :comments, :via => :commentable
+      has n, :comments, :polymorphically => :commentable
     end
     
     before :each do
@@ -43,7 +43,7 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
         item = klass.create(:name => "item1")
         item.reload
         item.comments.create(:text => "A Comment")
-      
+        
         item.reload
         item.comments(:text => "A Comment").should have(1).item
       end
