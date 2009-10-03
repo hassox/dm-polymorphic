@@ -38,14 +38,9 @@ module DataMapper
       
     end # Polymophic
   end # Is
-  
-  module Resource
-    module ClassMethods
-      include DataMapper::Is::Polymorphic
-    end # module ClassMethods
-  end # module Resource
-  
 end
+
+DataMapper::Model.append_extensions DataMapper::Is::Polymorphic
 
 require Pathname(__FILE__).dirname.expand_path / "associations.rb" 
 require Pathname(__FILE__).dirname.expand_path / "types.rb" 
