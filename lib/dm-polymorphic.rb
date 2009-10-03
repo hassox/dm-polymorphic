@@ -1,7 +1,7 @@
 require "rubygems"
 require "pathname"
 
-gem "dm-core", ">=0.9.6"
+gem "dm-core", ">=0.10.0"
 require "dm-core"
 
 
