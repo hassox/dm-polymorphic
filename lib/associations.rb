@@ -16,7 +16,7 @@ module DataMapper
           has_without_polymorphism cardinality, name,   :child_key => [:"#{interface}_id"], :"#{interface}_class" => self
           child_klass.belongs_to :"#{belongs_to_name}", :child_key => [:"#{interface}_id"], :"#{interface}_class" => self
         else
-          has_without_polymorphism(cardinality, name, args + [opts])
+          has_without_polymorphism(cardinality, name, *(args + [opts]))
         end
       end
       
