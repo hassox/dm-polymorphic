@@ -10,15 +10,15 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
 
       is :polymorphic, :commentable
 
-      property :id,   Integer, :serial => true
+      property :id,   Serial
       property :text, String
     end
 
     class Post
       include DataMapper::Resource
 
-      property :id, Integer, :serial => true
-      property :name,  String  
+      property :id,   Serial
+      property :name, String  
 
       has n, :comments, :polymorphically => :commentable   
     end
@@ -26,8 +26,8 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
     class Article
       include DataMapper::Resource
 
-      property :id, Integer, :serial => true
-      property :name,  String  
+      property :id,   Serial
+      property :name, String  
 
       has n, :comments, :polymorphically => :commentable
     end
@@ -43,19 +43,18 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
         item = klass.create(:name => "item1")
         item.reload
         item.comments.create(:text => "A Comment")
-        
         item.reload
         item.comments(:text => "A Comment").should have(1).item
       end
-    
+      
       it "should add the comment with the << syntax for #{klass}" do
         item = klass.create(:name => "item2")      
         c = Comment.new(:text => "comment2")
         item.comments << c
         item.reload
-        item.comments(:text => "comment2")
+        item.comments(:text => "comment2").should have(1).item
       end
-    
+      
       it "should access all the comments from the post for #{klass}" do
         item = klass.create(:name => "item3")
         c1 = Comment.new(:text => "comment3")
@@ -64,7 +63,7 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
         item.reload
         item.comments.should have(2).items
       end
-    
+      
       it "should access the post from the comment for #{klass}" do
         item = klass.create(:name => "item4")
         c = Comment.new(:text => "comment5")
@@ -72,7 +71,7 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
         item.save
         c.send(Extlib::Inflection.underscore(klass.name).to_sym).should == item
       end
-    
+      
       it "should access the commentable from the comment for #{klass}" do
         item = klass.create(:name => "item5")        
         c = Comment.new(:text => "comment6")
