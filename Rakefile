@@ -9,14 +9,14 @@ CLEAN.include "{log,pkg}/"
 
 spec = Gem::Specification.new do |s|
   s.name             = "dm-polymorphic"
-  s.version          = "0.9.6"
+  s.version          = "0.10.1"
   s.platform         = Gem::Platform::RUBY
   s.has_rdoc         = true
   s.extra_rdoc_files = %w[ README LICENSE TODO ]
   s.summary          = "DataMapper plugin enabling simple ActiveRecord style polymorphism"
   s.description      = s.summary
-  s.author           = "Daniel Neighman, Wayne E. Seguin"
-  s.email            = "has.sox@gmail.com, wayneeseguin@gmail.com"
+  s.author           = "Daniel Neighman, Wayne E. Seguin, Ripta Pasay"
+  s.email            = "has.sox@gmail.com, wayneeseguin@gmail.com, github@r8y.org"
   s.homepage         = "http://github.com/hassox/dm-polymorphic"
   s.require_path     = "lib"
   s.files            = FileList[ "{lib,spec}/**/*.rb", "spec/spec.opts", "Rakefile", *s.extra_rdoc_files ]
