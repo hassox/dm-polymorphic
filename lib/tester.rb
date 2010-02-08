@@ -8,14 +8,14 @@ class Comment
   
   is :polymorphic, :commentable
   
-  property :id,   Integer, :serial => true
+  property :id,   Serial, :serial => true
   property :text, String
 end
     
 class Post
   include DataMapper::Resource
   
-  property :id, Integer, :serial => true
+  property :id, Serial, :serial => true
   property :name,  String  
 
   has n, :comments, :polymorphically => :commentable   
@@ -24,7 +24,7 @@ end
 class Article
   include DataMapper::Resource
   
-  property :id, Integer, :serial => true
+  property :id, Serial, :serial => true
   property :name,  String  
 
   has n, :comments, :polymorphically => :commentable
