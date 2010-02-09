@@ -11,11 +11,11 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
       class Comment
         include DataMapper::Resource
 
-        is :polymorphic, :commentable                         if SYNTAX == :original
-        belongs_to :commentable, :polymorphic => true         if SYNTAX == :new
-
         property :id,   Serial
         property :text, String
+
+        is :polymorphic, :commentable                         if SYNTAX == :original
+        belongs_to :commentable, :polymorphic => true         if SYNTAX == :new
       end
 
       class Post

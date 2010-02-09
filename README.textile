@@ -17,7 +17,7 @@ h2. Example Usage.
   class Comment
     include DataMapper::Resource
   
-    property :id,   Integer, :serial => true
+    property :id,   Serial
     property :text, String
 
     belongs_to :commentable, :polymorphic => true
@@ -31,7 +31,7 @@ h2. Example Usage.
   class Post
     include DataMapper::Resource
   
-    property :id, Integer, :serial => true
+    property :id, Serial
     property :name,  String  
 
     has n, :comments, :as => :commentable
@@ -45,7 +45,7 @@ h2. Example Usage.
   class Article
     include DataMapper::Resource
   
-    property :id, Integer, :serial => true
+    property :id, Serial
     property :name,  String  
 
     has n, :comments, :as => :commentable
@@ -68,10 +68,10 @@ This will then provide the following methods
 </pre>
 
 <pre>
-  article = Article.create(:name => "item6")        
-  post = Post.create(:name => "item7")
-  c1 = Comment.new(:text => "comment6")
-  c2 = Comment.new(:text => "comment7")        
+  article = Article.create
+  post = Post.create
+  c1 = Comment.new
+  c2 = Comment.new
   post.comments << c1
   post.save
   article.comments << c2
