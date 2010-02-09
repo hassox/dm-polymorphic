@@ -19,7 +19,18 @@ module DataMapper
           belongs_to_name  = Extlib::Inflection.underscore(Extlib::Inflection.demodulize(self.name))
 
           has_without_polymorphism cardinality, name, *(args + [opts])
-          child_klass.belongs_to belongs_to_name.to_sym, :child_key => opts[:child_key]
+          child_klass.belongs_to "_#{as}_#{belongs_to_name}".to_sym, :child_key => opts[:child_key], :model => self
+          child_klass.class_eval <<-EVIL, __FILE__, __LINE__+1
+            def #{belongs_to_name}                                                          # def post
+              _#{as}_#{belongs_to_name} if #{as}_#{suffix} == '#{self.name}'                #   _commentable_post if commentable_class == 'Post'
+            end                                                                             # end
+        
+            def #{belongs_to_name}=(object)                                                 # def post=(object)
+              self._#{as}_#{belongs_to_name} = object if #{as}_#{suffix} == '#{self.name}'  #   self._commentable_post = object if commentable_class == 'Post'
+            end                                                                             # end
+            
+            protected :_#{as}_#{belongs_to_name}, :_#{as}_#{belongs_to_name}=
+          EVIL
         else
           has_without_polymorphism(cardinality, name, *(args + [opts]))
         end
@@ -36,14 +47,14 @@ module DataMapper
           property "#{name}_id".to_sym, Integer
           
           class_eval <<-EVIL, __FILE__, __LINE__+1
-            def #{name}                                                                                                     # def business_owner
-              send(Extlib::Inflection.underscore(Extlib::Inflection.demodulize(#{name}_#{suffix}))) if #{name}_#{suffix}    #   send(Extlib::Inflection.underscore(Extlib::Inflection.demodulize(business_owner_class))) if business_owner_class
-            end                                                                                                             # end
+            def #{name}                                                                                                                   # def commentable
+              send('_#{name}_' + Extlib::Inflection.underscore(Extlib::Inflection.demodulize(#{name}_#{suffix}))) if #{name}_#{suffix}    #   send('_commentable_' + Extlib::Inflection.underscore(Extlib::Inflection.demodulize(commentable_class))) if commentable_class
+            end                                                                                                                           # end
         
-            def #{name}=(object)                                                                                            # def business_owner=(object)
-              self.#{name}_#{suffix} = object.class.name                                                                    #   self.business_owner_class = object.class.name
-              self.send(Extlib::Inflection.underscore(Extlib::Inflection.demodulize(object.class))+'=', object)             #   self.send(Extlib::Inflection.underscore(Extlib::Inflection.demodulize(object.class))+'=', object)
-            end                                                                                                             # end
+            def #{name}=(object)                                                                                                          # def commentable=(object)
+              self.#{name}_#{suffix} = object.class.name                                                                                  #   self.commentable_class = object.class.name
+              self.send('_#{name}_' + Extlib::Inflection.underscore(Extlib::Inflection.demodulize(object.class.name)) + '=', object)      #   self.send('_commentable_' + Extlib::Inflection.underscore(Extlib::Inflection.demodulize(object.class.name)) + '=', object)
+            end                                                                                                                           # end
           EVIL
         else
           belongs_to_without_polymorphism name, *(args + [opts])

@@ -1,0 +1,93 @@
+h1. dm-polymorphic.
+
+Please see wiki for discussion.
+
+The DM polymorphic gem mimics AR style polymorphism.  It has been decided that DM will not follow this path, since it
+really isn't very nice on the DB and there are other ways, that do not require DBA to cry to achieve the same result.
+
+That being said this is still useful for those ppl wishing to convert rails apps over.  
+
+One Massive Caveat is that using this you will get n+1 calls to the db atm if you do Comments#commentable for example.  It needs a proxy object if anyone cares to write one.
+
+This is highly experimental software, use it at your own risk.
+
+h2. Example Usage.
+
+<pre>
+  class Comment
+    include DataMapper::Resource
+  
+    property :id,   Integer, :serial => true
+    property :text, String
+
+    belongs_to :commentable, :polymorphic => true
+  
+    # OR use the old syntax
+    #
+    # is :polymorphic, :commentable
+    #
+  end
+    
+  class Post
+    include DataMapper::Resource
+  
+    property :id, Integer, :serial => true
+    property :name,  String  
+
+    has n, :comments, :as => :commentable
+
+    # OR use the old syntax
+    #
+    # has n, :comments, :polymorphically => :commentable   
+    #
+  end
+
+  class Article
+    include DataMapper::Resource
+  
+    property :id, Integer, :serial => true
+    property :name,  String  
+
+    has n, :comments, :as => :commentable
+
+    # OR use the old syntax
+    #
+    # has n, :comments, :polymorphically => :commentable   
+    #
+  end
+</pre>
+
+This will then provide the following methods
+
+<pre>
+  Comment#commentable
+  Comment#post
+  Comment#article
+  Post#comments
+  Article#comments
+</pre>
+
+<pre>
+  article = Article.create(:name => "item6")        
+  post = Post.create(:name => "item7")
+  c1 = Comment.new(:text => "comment6")
+  c2 = Comment.new(:text => "comment7")        
+  post.comments << c1
+  post.save
+  article.comments << c2
+  article.save
+
+  c1.commentable    # => post
+  c2.commentable    # => article
+
+  c1.post           # => post
+  c1.article        # => nil
+
+  c2.post           # => nil
+  c2.article        # => article
+
+  post.comments     # => [c1]
+  article.comments  # => [c2]
+</pre>
+
+no n+1 problem anymore
