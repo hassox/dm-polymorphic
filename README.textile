@@ -1,15 +1,8 @@
 h1. dm-polymorphic.
 
-Please see wiki for discussion.
+This is a fork of https://github.com/hassox/dm-polymorphic
 
-The DM polymorphic gem mimics AR style polymorphism.  It has been decided that DM will not follow this path, since it
-really isn't very nice on the DB and there are other ways, that do not require DBA to cry to achieve the same result.
-
-That being said this is still useful for those ppl wishing to convert rails apps over.  
-
-One Massive Caveat is that using this you will get n+1 calls to the db atm if you do Comments#commentable for example.  It needs a proxy object if anyone cares to write one.
-
-This is highly experimental software, use it at your own risk.
+The DM polymorphic gem mimics AR style polymorphism. This is highly experimental software; use it at your own risk.
 
 h2. Example Usage.
 
@@ -89,5 +82,3 @@ This will then provide the following methods
   post.comments     # => [c1]
   article.comments  # => [c2]
 </pre>
-
-no n+1 problem anymore
