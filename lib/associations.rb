@@ -44,7 +44,8 @@ module DataMapper
           suffix = opts.delete(:suffix) || 'class'
           
           property "#{name}_#{suffix}".to_sym, String
-          property "#{name}_id".to_sym, Integer
+          # Explicitly defining foreign key properties can break auto_migrate!
+          # property "#{name}_id".to_sym, Integer
           
           class_eval <<-EVIL, __FILE__, __LINE__+1
             def #{name}                                                                                                                   # def commentable
