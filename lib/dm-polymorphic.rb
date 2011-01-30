@@ -1,8 +1,7 @@
 require "rubygems"
 require "pathname"
-
-gem "dm-core", ">=0.10.0"
 require "dm-core"
+require "extlib/inflection"
 
 require Pathname(__FILE__).dirname.expand_path / "associations.rb"
 require Pathname(__FILE__).dirname.expand_path / "types.rb" 
