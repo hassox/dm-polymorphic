@@ -16,4 +16,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   
   s.add_runtime_dependency 'dm-core', '>= 0.10.2'
+  s.add_runtime_dependency 'extlib'
 end
